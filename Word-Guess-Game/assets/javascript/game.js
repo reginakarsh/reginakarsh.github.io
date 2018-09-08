@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
     
 //Wordlist & variables
-var scaryWords = ['It', 'Saw', 'Ring', 'Seven', 'Psycho', 'Shining', 'Exorcist', 'Halloween', 'Poltergeist', 'Frankenstein', 'Insidious', 'Scream', 'Alien', 'Carrie', 'Hellraiser', 'Misery', 'Goosebumps', 'Shutter'];
+var scaryWords = ['It', 'Saw', 'Scray Movie', 'The Ring', 'Seven', 'Psycho', 'Shining', 'Exorcist', 'Halloween', 'Poltergeist', 'Frankenstein', 'Insidious', 'Scream', 'Alien', 'Carrie', 'Hellraiser', 'Misery', 'Goosebumps', 'Shutter', 'The Conjuring'];
 //console.log(possibleWords);
 
 const maxGuess = 8
@@ -45,15 +45,16 @@ function checkForLetter(letter) {
     }
 
     if (!foundLetter) {
-        // Check if inccorrect guess is already on the list
+        // Check if incorrect guess has already been used
         if (!guessedLetters.includes(letter)) {
-            // Add incorrect letter to guessed letter list
+            // Add incorrect letter to guessed letter array
             guessedLetters.push(letter)
             // Decrement the number of remaining guesses
             numGuess--
         }
         if (numGuess === 0) {
             // Display word before reseting game
+            losses++
             guessingWord = wordToMatch.split()
             pauseGame = true
             setTimeout(resetGame, 5000)
@@ -63,7 +64,7 @@ function checkForLetter(letter) {
     updateDisplay()
 
 }
-// Check in keypressed is between A-Z or a-z
+// Check if key pressed is between A-Z or a-z
 function isAlpha (ch){
     return /^[A-Z]$/i.test(ch);
 }
@@ -72,7 +73,7 @@ function resetGame() {
     numGuess = maxGuess
     pauseGame = false
 
-    // Get a new word
+    // Get a new word and then link wordToMatch to original word to replace it
     wordToMatch = scaryWords[Math.floor(Math.random() * scaryWords.length)].toUpperCase()
     console.log(wordToMatch)
 
@@ -80,9 +81,9 @@ function resetGame() {
     guessedLetters = []
     guessingWord = []
 
-    // Reset the guessed word
+    // Reset the guessed word and assign marker to replace scaryWord
     for (var i=0, j=wordToMatch.length; i < j; i++){
-        // Put a space instead of an underscore between multi word "words"
+        // Loop through string and return an underscore for each letter. If there is a space between two words, put a space instead of an underscore between the words
         if (wordToMatch[i] === " ") {
             guessingWord.push(" ")
         } else {
@@ -94,6 +95,7 @@ function resetGame() {
     updateDisplay()
 }
 
+//Display on HTML page
 function updateDisplay () {
     document.getElementById("totalWins").innerText = wins
     document.getElementById("totalLosses").innerText = losses
